@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blockchain Verification</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .status {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .status h2 {
+            color: #1f4e79;
+        }
+
+        .valid {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .block {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .block h2 {
+            color: #1f4e79;
+        }
+
+        .hash {
+            word-break: break-all;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            margin-right: 10px;
+            padding: 12px 20px;
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Corporate Audit System</h1>
+
+    <p>Blockchain Verification</p>
+
+</div>
+
+
+<div class="container">
+
+    <!-- BLOCKCHAIN STATUS -->
+
+    <div class="status">
+
+        <h2>Blockchain Status</h2>
+
+        <p class="valid"
+           th:text="${blockchainValid ? 'Blockchain Valid ✅' : 'Blockchain Invalid ❌'}">
+            Blockchain Status
+        </p>
+
+    </div>
+
+
+    <!-- ALL BLOCKS -->
+
+    <h2>Blockchain Blocks</h2>
+
+    <div class="block"
+         th:each="block : ${blocks}">
+
+        <h2>
+            Block #
+            <span th:text="${block.index}">0</span>
+        </h2>
+
+        <p>
+            <strong>Data:</strong>
+        </p>
+
+        <p th:text="${block.data}">
+            Genesis Block
+        </p>
+
+        <p>
+            <strong>Previous Hash:</strong>
+        </p>
+
+        <p class="hash"
+           th:text="${block.previousHash}">
+            0
+        </p>
+
+        <p>
+            <strong>Current Hash:</strong>
+        </p>
+
+        <p class="hash"
+           th:text="${block.hash}">
+            Hash
+        </p>
+
+    </div>
+
+
+   <a class="back"
+   th:href="${session.role == 'AUDITOR' ? '/auditor/dashboard' : '/accountant/dashboard'}">
+    ← Back to Dashboard
+</a>
+
+</div>
+
+</body>
+
+</html>

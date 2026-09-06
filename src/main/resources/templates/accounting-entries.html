@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accounting Entries</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .table-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            color: #1f4e79;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #1f4e79;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Corporate Audit System</h1>
+
+    <p>Accounting Entries</p>
+
+</div>
+
+
+<div class="container">
+
+    <div class="table-box">
+
+        <h2>All Accounting Transactions</h2>
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>Invoice Number</th>
+                <th>Transaction Type</th>
+                <th>Debit Account</th>
+                <th>Credit Account</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Created By</th>
+                <th>Timestamp</th>
+                <th th:if="${session.role == 'ACCOUNTANT'}">Actions</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="entry : ${entries}">
+
+                <td th:text="${entry.invoiceNumber}">
+                    INV-1001
+                </td>
+
+                <td th:text="${entry.transactionType}">
+                    SALE
+                </td>
+
+                <td th:text="${entry.debitAccount}">
+                    Cash
+                </td>
+
+                <td th:text="${entry.creditAccount}">
+                    Sales Revenue
+                </td>
+
+                <td th:text="${entry.amount}">
+                    50000
+                </td>
+
+                <td th:text="${entry.description}">
+                    Product Sale
+                </td>
+
+                 <td th:text="${entry.createdBy}">
+                     accountant
+                 </td>
+
+                <td th:text="${entry.timestamp}">
+                   2026-09-06 13:30:00
+                </td>
+
+                <td th:if="${session.role == 'ACCOUNTANT'}">
+    <!-- Update + Delete forms -->
+
+    <!-- Update -->
+    <form action="/accountant/update-entry"
+          method="post"
+          style="margin-bottom:10px;">
+
+        <input type="hidden"
+               name="invoiceNumber"
+               th:value="${entry.invoiceNumber}">
+
+      <input type="text"
+       name="transactionType"
+       th:value="${entry.transactionType}"
+       placeholder="Transaction Type"
+       required>
+
+<input type="text"
+       name="debitAccount"
+       th:value="${entry.debitAccount}"
+       placeholder="Debit Account"
+       required>
+
+<input type="text"
+       name="creditAccount"
+       th:value="${entry.creditAccount}"
+       placeholder="Credit Account"
+       required>
+
+<input type="number"
+       name="amount"
+       th:value="${entry.amount}"
+       step="0.01"
+       placeholder="Amount"
+       required>
+
+<input type="text"
+       name="description"
+       th:value="${entry.description}"
+       placeholder="Description"
+       required>
+
+        <button type="submit">
+            Update
+        </button>
+
+    </form>
+
+
+    <!-- Delete -->
+    <form action="/accountant/delete-entry"
+          method="post">
+
+        <input type="hidden"
+               name="invoiceNumber"
+               th:value="${entry.invoiceNumber}">
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to delete this entry?');">
+
+            Delete
+
+        </button>
+
+    </form>
+
+</td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+     <a class="back"
+   th:href="${session.role == 'AUDITOR' ? '/auditor/dashboard' : '/accountant/dashboard'}">
+    ← Back
+</a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

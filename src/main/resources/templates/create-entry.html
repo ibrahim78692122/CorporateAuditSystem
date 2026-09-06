@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Accounting Entry</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1f4e79;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            background: #1f4e79;
+            color: white;
+            cursor: pointer;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1f4e79;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Corporate Audit System</h1>
+    <p>Create Accounting Entry</p>
+</div>
+
+<div class="container">
+
+    <h2>New Accounting Transaction</h2>
+    <p th:if="${message}"
+   th:text="${message}">
+</p>
+
+    <form action="/accountant/create-entry" method="post">
+
+        <label>Invoice Number</label>
+        <input type="text"
+               name="invoiceNumber"
+               placeholder="INV-1001"
+               required>
+
+        <label>Transaction Type</label>
+        <input type="text"
+               name="transactionType"
+               placeholder="SALE"
+               required>
+
+        <label>Debit Account</label>
+        <input type="text"
+               name="debitAccount"
+               placeholder="Cash"
+               required>
+
+        <label>Credit Account</label>
+        <input type="text"
+               name="creditAccount"
+               placeholder="Sales Revenue"
+               required>
+
+        <label>Amount</label>
+        <input type="number"
+               name="amount"
+               step="0.01"
+               min="0.01"
+               placeholder="50000"
+               required>
+
+        <label>Description</label>
+        <input type="text"
+               name="description"
+               placeholder="Product Sale"
+               required>
+
+        <button type="submit">
+            Save Entry
+        </button>
+
+    </form>
+
+    <a class="back"
+       href="/accountant/dashboard">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

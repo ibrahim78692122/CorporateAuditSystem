@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Auditor Dashboard</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #263238;
+            color: white;
+            padding: 25px 40px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .box h2 {
+            color: #263238;
+        }
+
+        .box p {
+            color: #555;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 20px;
+
+            background: #263238;
+            color: white;
+
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Corporate Audit System</h1>
+
+    <p>Auditor Dashboard</p>
+
+    <a href="/do-logout">
+        <button type="button">Logout</button>
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+            Welcome,
+            <span th:text="${username}">
+                Auditor
+            </span>
+        </h2>
+
+        <p>
+            Role:
+            <strong th:text="${role}">
+                AUDITOR
+            </strong>
+        </p>
+
+    </div>
+
+
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <!-- VIEW BLOCKCHAIN -->
+
+        <div class="box">
+
+            <h2>🔗 Blockchain</h2>
+
+            <p>
+                View all blockchain blocks,
+                hashes and accounting records.
+            </p>
+
+            <a class="button"
+               href="/auditor/blockchain">
+
+                View Blockchain
+
+            </a>
+
+        </div>
+
+
+        <!-- VERIFY BLOCKCHAIN -->
+
+        <div class="box">
+
+            <h2>✅ Verify Blockchain</h2>
+
+            <p>
+                Check whether the blockchain
+                has been tampered with.
+            </p>
+
+            <a class="button"
+               href="/auditor/verify">
+
+                Verify Blockchain
+
+            </a>
+
+        </div>
+
+
+       <!-- ACCOUNTING ENTRIES -->
+
+        <div class="box">
+
+            <h2>📊 Accounting Entries</h2>
+
+            <p>
+                Review all accounting transactions.
+            </p>
+
+            <a class="button"
+               href="/auditor/entries">
+
+                View Entries
+
+            </a>
+
+        </div>
+    
+        
+    
+
+        <!-- AUDIT LOGS -->
+
+        <div class="box">
+
+            <h2>📋 Audit Logs</h2>
+
+            <p>
+                Review system activities
+                and audit records.
+            </p>
+
+            <a class="button"
+               href="/auditor/audit-logs">
+
+                View Audit Logs
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

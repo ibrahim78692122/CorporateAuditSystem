@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Audit Logs</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #263238;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .log {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .log h2 {
+            color: #263238;
+        }
+
+        .log p {
+            margin: 10px 0;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+
+            background: #263238;
+            color: white;
+
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .empty {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Corporate Audit System</h1>
+
+    <p>Audit Logs</p>
+
+</div>
+
+
+<div class="container">
+
+    <h2>System Audit Logs</h2>
+
+
+    <!-- Audit Logs -->
+
+    <div th:if="${auditLogs != null and !auditLogs.isEmpty()}">
+
+        <div class="log"
+             th:each="log : ${auditLogs}">
+
+            <h2>
+                Audit Log
+            </h2>
+
+            <p>
+                <span class="label">Block Index:</span>
+                <span th:text="${log.blockIndex}">
+                    0
+                </span>
+            </p>
+
+            <p>
+                <span class="label">Action:</span>
+                <span th:text="${log.action}">
+                    ACTION
+                </span>
+            </p>
+
+            <p>
+                <span class="label">Performed By:</span>
+                <span th:text="${log.performedBy}">
+                    USER
+                </span>
+            </p>
+
+            <p>
+                <span class="label">Result:</span>
+                <span th:text="${log.result}">
+                    SUCCESS
+                </span>
+            </p>
+
+            <p>
+                <span class="label">Message:</span>
+                <span th:text="${log.message}">
+                    Message
+                </span>
+            </p>
+
+            <p>
+                <span class="label">Timestamp:</span>
+                <span th:text="${log.timestamp}">
+                    Timestamp
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- No Logs -->
+
+    <div class="empty"
+         th:if="${auditLogs == null or auditLogs.isEmpty()}">
+
+        <h3>No Audit Logs Found.</h3>
+
+        <p>
+            There are currently no audit activities
+            recorded in the database.
+        </p>
+
+    </div>
+
+
+    <a class="back"
+       href="/auditor/dashboard">
+
+        ← Back to Auditor Dashboard
+
+    </a>
+
+
+    <a class="back"
+       href="/auditor/blockchain">
+
+        View Blockchain
+
+    </a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Accountant Dashboard</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #1f4e79;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+
+            background: #1f4e79;
+            color: white;
+
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Corporate Audit System</h1>
+    <p>Accountant Dashboard</p>
+   <a href="/do-logout">
+    <button type="button">Logout</button>
+</a>
+</div>
+
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h2>
+            Welcome, <span th:text="${username}">Accountant</span>
+        </h2>
+
+        <p>
+            Role:
+            <strong th:text="${role}">ACCOUNTANT</strong>
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h2>Create Entry</h2>
+
+            <p>
+                Create a new accounting transaction.
+            </p>
+
+            <a href="/accountant/create-entry">
+    <button type="button">
+        Create Entry
+    </button>
+</a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>View Entries</h2>
+
+            <p>
+                View all accounting transactions.
+            </p>
+
+           <a href="/accountant/entries">
+    <button type="button">
+        View Entries
+    </button>
+</a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Statistics</h2>
+
+            <p>
+                View transaction statistics.
+            </p>
+
+           <a href="/accountant/statistics">
+    <button type="button">
+        Statistics
+    </button>
+</a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Blockchain</h2>
+
+            <p>
+                Verify accounting records.
+            </p>
+
+           <a href="/accountant/blockchain">
+    <button type="button">
+        Blockchain
+    </button>
+</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
