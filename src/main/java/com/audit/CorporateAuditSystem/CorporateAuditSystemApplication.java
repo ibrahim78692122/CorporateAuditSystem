@@ -9,6 +9,7 @@ public class CorporateAuditSystemApplication {
     public static void main(String[] args) {
 
         DatabaseConnection.createTables();
+        DatabaseConnection.addProfileImageColumn();
         DatabaseConnection.createDefaultUsers();
 
         SpringApplication.run(

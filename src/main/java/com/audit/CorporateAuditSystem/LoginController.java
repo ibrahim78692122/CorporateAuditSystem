@@ -28,78 +28,38 @@ public class LoginController {
     // LOGIN PROCESS
     // ================================
 
-    @PostMapping("/login")
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password,
-            Model model,
-            HttpSession session) {
+  @PostMapping("/login")
+public String login(
+        @RequestParam String username,
+        @RequestParam String password,
+        Model model,
+        HttpSession session) {
 
-        String sql =
-                "SELECT * FROM users WHERE username = ? AND password = ?";
+    username = username.trim();
 
-        try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
+    User user = DatabaseConnection.getUserByUsername(username);
 
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
-        ) {
+    if (user != null && user.getPassword().equals(password)) {
 
-            statement.setString(1, username);
-            statement.setString(2, password);
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("role", user.getRole());
 
-            ResultSet resultSet =
-                    statement.executeQuery();
-
-            if (resultSet.next()) {
-
-                String role =
-                        resultSet.getString("role");
-
-                // Login information session mein save karo
-                session.setAttribute("username", username);
-                session.setAttribute("role", role);
-
-                // ================================
-                // ACCOUNTANT
-                // ================================
-
-                if (role.equals("ACCOUNTANT")) {
-
-                    return "redirect:/accountant/dashboard";
-                }
-
-                // ================================
-                // AUDITOR
-                // ================================
-
-                else if (role.equals("AUDITOR")) {
-
-                    return "redirect:/auditor/dashboard";
-                }
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            model.addAttribute(
-                    "error",
-                    "Database connection error"
-            );
-
-            return "login";
+        if (user.getRole().equals("ACCOUNTANT")) {
+            return "redirect:/accountant/dashboard";
         }
 
-        model.addAttribute(
-                "error",
-                "Invalid username or password"
-        );
-
-        return "login";
+        if (user.getRole().equals("AUDITOR")) {
+            return "redirect:/auditor/dashboard";
+        }
     }
 
+    model.addAttribute(
+            "error",
+            "Invalid username or password"
+    );
+
+    return "login";
+}
     // ================================
     // LOGOUT
     // ================================

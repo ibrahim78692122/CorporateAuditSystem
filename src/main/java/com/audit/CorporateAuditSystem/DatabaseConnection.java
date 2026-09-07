@@ -94,6 +94,35 @@ public class DatabaseConnection {
        
     }
 
+    public static void addProfileImageColumn() {
+
+    String sql = """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS profile_image VARCHAR(500)
+            """;
+
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
+
+        statement.executeUpdate();
+
+        System.out.println(
+                "Profile Image Column Checked Successfully! ✅"
+        );
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Unable To Add Profile Image Column ❌"
+        );
+
+        System.out.println(e.getMessage());
+    }
+}
+
 
     private static void addNewAccountingColumns(Statement statement) {
 
@@ -149,47 +178,53 @@ public class DatabaseConnection {
     // DEFAULT USERS
     // =========================================
 
-    public static void createDefaultUsers() {
+    // =========================================
+// DEFAULT USERS
+// =========================================
 
-        String sql = """
-                MERGE INTO users
-                (username, password, role)
-                KEY(username)
-                VALUES (?, ?, ?)
-                """;
+public static void createDefaultUsers() {
 
-        try (
-                Connection connection = getConnection();
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
-        ) {
+    String sql = """
+            INSERT INTO users (username, password, role)
+            SELECT ?, ?, ?
+            WHERE NOT EXISTS (
+                SELECT 1 FROM users WHERE role = ?
+            )
+            """;
 
-            // Accountant
-            statement.setString(1, "accountant");
-            statement.setString(2, "1234");
-            statement.setString(3, "ACCOUNTANT");
-            statement.executeUpdate();
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
 
-            // Auditor
-            statement.setString(1, "auditor");
-            statement.setString(2, "1234");
-            statement.setString(3, "AUDITOR");
-            statement.executeUpdate();
+        // Accountant
+        statement.setString(1, "accountant");
+        statement.setString(2, "1234");
+        statement.setString(3, "ACCOUNTANT");
+        statement.setString(4, "ACCOUNTANT");
+        statement.executeUpdate();
 
-            System.out.println(
-                    "Default Users Created Successfully! ✅"
-            );
+        // Auditor
+        statement.setString(1, "auditor");
+        statement.setString(2, "1234");
+        statement.setString(3, "AUDITOR");
+        statement.setString(4, "AUDITOR");
+        statement.executeUpdate();
 
-        } catch (SQLException e) {
+        System.out.println(
+                "Default Users Checked Successfully! ✅"
+        );
 
-            System.out.println(
-                    "User Creation Failed ❌"
-            );
+    } catch (SQLException e) {
 
-            System.out.println(e.getMessage());
-        }
+        System.out.println(
+                "User Creation Failed ❌"
+        );
+
+        System.out.println(e.getMessage());
     }
-
+}
     // =========================================
     // INSERT ACCOUNTING ENTRY
     // =========================================
@@ -1387,5 +1422,171 @@ public static CustomerSupplier getCustomerSupplierById(long id) {
     }
 
     return null;
+}
+
+// =========================================
+// UPDATE USERNAME
+// =========================================
+
+public static boolean updateUsername(
+        String currentUsername,
+        String newUsername) {
+
+    String sql = """
+            UPDATE users
+            SET username = ?
+            WHERE username = ?
+            """;
+
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
+
+        
+        statement.setString(1, newUsername);
+        statement.setString(2, currentUsername);
+
+       int rows = statement.executeUpdate();
+
+System.out.println("Username Updated Rows: " + rows);
+
+return rows > 0;
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Unable To Update Username ❌"
+        );
+
+        System.out.println(e.getMessage());
+
+        return false;
+    }
+}
+
+
+// =========================================
+// UPDATE PASSWORD
+// =========================================
+
+public static boolean updatePassword(
+        String username,
+        String newPassword) {
+
+    String sql = """
+            UPDATE users
+            SET password = ?
+            WHERE username = ?
+            """;
+
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
+
+        statement.setString(1, newPassword);
+        statement.setString(2, username);
+int rows = statement.executeUpdate();
+
+System.out.println("Password Updated Rows: " + rows);
+
+return rows > 0;
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Unable To Update Password ❌"
+        );
+
+        System.out.println(e.getMessage());
+
+        return false;
+    }
+}
+
+
+// =========================================
+// GET USER
+// =========================================
+
+public static User getUserByUsername(
+        String username) {
+
+    String sql = """
+            SELECT *
+            FROM users
+            WHERE username = ?
+            """;
+
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
+
+        statement.setString(1, username);
+
+        try (ResultSet resultSet =
+                     statement.executeQuery()) {
+
+            if (resultSet.next()) {
+
+              return new User(
+        resultSet.getString("username"),
+        resultSet.getString("password"),
+        resultSet.getString("role"),
+        resultSet.getString("profile_image")
+);
+            }
+        }
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Unable To Get User ❌"
+        );
+
+        System.out.println(e.getMessage());
+    }
+
+    return null;
+}
+
+public static boolean updateProfileImage(
+        String username,
+        String profileImage) {
+
+    String sql = """
+            UPDATE users
+            SET profile_image = ?
+            WHERE username = ?
+            """;
+
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(sql)
+    ) {
+
+        statement.setString(1, profileImage);
+        statement.setString(2, username);
+
+        int rows = statement.executeUpdate();
+
+        return rows > 0;
+
+    } catch (SQLException e) {
+
+        System.out.println(
+                "Unable To Update Profile Image ❌"
+        );
+
+        System.out.println(e.getMessage());
+
+        return false;
+    }
 }
 }
