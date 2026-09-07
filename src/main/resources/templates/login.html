@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,13 +18,17 @@
 
         body {
             margin: 0;
+
             font-family: Arial, sans-serif;
+
             background: #f2f4f7;
 
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
         }
 
@@ -37,11 +41,13 @@
 
             border-radius: 12px;
 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            box-shadow:
+                0 5px 25px rgba(0,0,0,0.15);
         }
 
         h1 {
             text-align: center;
+
             color: #1f4e79;
 
             margin-bottom: 8px;
@@ -49,6 +55,7 @@
 
         .subtitle {
             text-align: center;
+
             color: #777;
 
             margin-bottom: 25px;
@@ -58,6 +65,7 @@
             display: block;
 
             margin-top: 15px;
+
             margin-bottom: 7px;
 
             font-weight: bold;
@@ -105,6 +113,54 @@
             background: #163a5c;
         }
 
+        .error-message {
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            margin-bottom: 15px;
+
+            text-align: center;
+        }
+
+        .success-message {
+            background: #dcfce7;
+
+            color: #166534;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            margin-bottom: 15px;
+
+            text-align: center;
+        }
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #777;
+        }
+
+        .register-link a {
+            color: #0f766e;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 
 </head>
@@ -120,14 +176,32 @@
             Secure Login
         </div>
 
-        <div style="color:red; text-align:center; margin-bottom:15px;"
-     th:if="${error}"
-     th:text="${error}">
-</div>
+
+        <!-- SUCCESS MESSAGE -->
+
+        <div
+            class="success-message"
+            th:if="${success}"
+            th:text="${success}">
+        </div>
+
+
+        <!-- ERROR MESSAGE -->
+
+        <div
+            class="error-message"
+            th:if="${error}"
+            th:text="${error}">
+        </div>
+
+
+        <!-- LOGIN FORM -->
 
         <form action="/login" method="post">
 
-            <label>Username</label>
+            <label>
+                Username
+            </label>
 
             <input
                 type="text"
@@ -137,7 +211,9 @@
             >
 
 
-            <label>Password</label>
+            <label>
+                Password
+            </label>
 
             <input
                 type="password"
@@ -152,6 +228,21 @@
             </button>
 
         </form>
+
+
+        <!-- REGISTER LINK -->
+
+        <div class="register-link">
+
+            <span>
+                Don't have an account?
+            </span>
+
+            <a href="/register">
+                Create Account
+            </a>
+
+        </div>
 
     </div>
 

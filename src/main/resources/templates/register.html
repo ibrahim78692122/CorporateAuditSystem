@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - Corporate Audit System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .register-box {
+            width: 400px;
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+
+            font-weight: bold;
+            color: #334155;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #0f766e;
+        }
+
+        button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #0f766e;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #115e59;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #b91c1c;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 15px;
+
+            text-align: center;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+
+            color: #64748b;
+        }
+
+        .login-link a {
+            color: #0f766e;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-box">
+
+    <h1>Create Account</h1>
+
+    <div class="subtitle">
+        Corporate Audit System
+    </div>
+
+    <div
+        class="error"
+        th:if="${error}"
+        th:text="${error}">
+    </div>
+
+    <form action="/register" method="post">
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            required>
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            required>
+
+        <label>Confirm Password</label>
+
+        <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            required>
+
+        <label>Account Role</label>
+
+        <select name="role" required>
+
+            <option value="ACCOUNTANT">
+                Accountant
+            </option>
+
+            <option value="AUDITOR">
+                Auditor
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="/">Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

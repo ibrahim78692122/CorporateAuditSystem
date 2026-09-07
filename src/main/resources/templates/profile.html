@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - Corporate Audit System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #1f4e79, #2563eb);
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .brand p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            background: white;
+            color: #1f4e79;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #e8eef7;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+            overflow: hidden;
+        }
+
+        /* PROFILE TOP */
+
+        .profile-top {
+            background: linear-gradient(135deg, #eaf3ff, #f8fbff);
+            text-align: center;
+            padding: 35px 20px 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+     .avatar {
+    width: 110px;
+    height: 110px;
+    margin: auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 58px;
+    border: 5px solid white;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.20);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+        .profile-top h2 {
+            margin: 15px 0 5px;
+            font-size: 26px;
+        }
+
+        .role {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .intro {
+            max-width: 500px;
+            margin: 15px auto 0;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* INFORMATION */
+
+        .profile-info {
+            padding: 30px;
+        }
+
+        .section-title {
+            margin-top: 0;
+            color: #1f4e79;
+            font-size: 20px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .edit-btn {
+            flex: 1;
+            text-align: center;
+            padding: 13px;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .dashboard-btn {
+            flex: 1;
+            text-align: center;
+            padding: 13px;
+            border-radius: 9px;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .dashboard-btn:hover {
+            background: #cbd5e1;
+        }
+
+        /* SUCCESS */
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 25px;
+            padding-bottom: 20px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .brand h1 {
+                font-size: 18px;
+            }
+
+            .logo {
+                width: 45px;
+                height: 45px;
+            }
+
+            .back-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .container {
+                margin: 25px auto;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="brand">
+
+        <img src="/logo.png"
+             alt="Corporate Audit System Logo"
+             class="logo">
+
+        <div>
+
+            <h1>Corporate Audit System</h1>
+
+            <p>Secure • Transparent • Reliable</p>
+
+        </div>
+
+    </div>
+
+
+    <a href="/accountant/dashboard"
+       class="back-btn"
+       th:if="${user.role == 'ACCOUNTANT'}">
+
+        ← Dashboard
+
+    </a>
+
+
+    <a href="/auditor/dashboard"
+       class="back-btn"
+       th:if="${user.role == 'AUDITOR'}">
+
+        ← Dashboard
+
+    </a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <div class="profile-card">
+
+
+        <!-- PROFILE TOP -->
+
+        <div class="profile-top">
+
+       <div class="avatar">
+
+    <img
+        th:if="${user.profileImage != null and !#strings.isEmpty(user.profileImage)}"
+        th:src="${user.profileImage}"
+        alt="Profile Picture">
+
+    <span
+        th:unless="${user.profileImage != null and !#strings.isEmpty(user.profileImage)}">
+        🧑‍💼
+    </span>
+
+</div>
+
+            <h2 th:text="${user.username}">
+                Accountant
+            </h2>
+
+
+            <span class="role"
+                  th:text="${user.role}">
+
+                ACCOUNTANT
+
+            </span>
+
+
+            <p class="intro">
+
+                Manage your corporate accounting
+                records securely and transparently
+                with the Corporate Audit System.
+
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE INFORMATION -->
+
+        <div class="profile-info">
+
+
+            <div th:if="${success}"
+                 class="success"
+                 th:text="${success}">
+
+                Profile updated successfully! ✅
+
+            </div>
+
+
+            <h3 class="section-title">
+                Account Information
+            </h3>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Username
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${user.username}">
+
+                        accountant
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Account Role
+                    </div>
+
+                    <div class="info-value"
+                         th:text="${user.role}">
+
+                        ACCOUNTANT
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Account Status
+                    </div>
+
+                    <div class="info-value">
+                        🟢 Active
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Security
+                    </div>
+
+                    <div class="info-value">
+                        🔐 Protected Account
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="actions">
+
+                <a href="/profile/edit"
+                   class="edit-btn">
+
+                    ✏️ Edit Profile
+
+                </a>
+
+
+                <a href="/accountant/dashboard"
+                   class="dashboard-btn"
+                   th:if="${user.role == 'ACCOUNTANT'}">
+
+                    ← Back to Dashboard
+
+                </a>
+
+
+                <a href="/auditor/dashboard"
+                   class="dashboard-btn"
+                   th:if="${user.role == 'AUDITOR'}">
+
+                    ← Back to Dashboard
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        © 2026 Corporate Audit System
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

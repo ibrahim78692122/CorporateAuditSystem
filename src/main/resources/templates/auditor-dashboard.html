@@ -81,6 +81,48 @@
             opacity: 0.9;
         }
 
+        .profile-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-btn:hover {
+    background: #1d4ed8;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.logout-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background: #b91c1c;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 10px;
+}
     </style>
 
 </head>
@@ -89,13 +131,25 @@
 
 <header>
 
+    <img src="/logo.png"
+         alt="Corporate Audit System Logo"
+         class="logo">
+
     <h1>Corporate Audit System</h1>
 
     <p>Auditor Dashboard</p>
 
-    <a href="/do-logout">
-        <button type="button">Logout</button>
+  <div class="header-actions">
+
+    <a href="/profile" class="profile-btn">
+        👤 My Profile
     </a>
+
+    <a href="/do-logout" class="logout-btn">
+        Logout
+    </a>
+
+</div>
 
 </header>
 

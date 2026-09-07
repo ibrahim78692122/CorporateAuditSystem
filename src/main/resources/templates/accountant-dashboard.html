@@ -71,6 +71,30 @@
             cursor: pointer;
         }
 
+        .logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 10px;
+}
+
+        .profile-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.profile-btn:hover {
+    background: #1d4ed8;
+}
+
+
     </style>
 
 </head>
@@ -78,11 +102,23 @@
 <body>
 
 <div class="header">
+
+    <img src="/logo.png"
+     alt="Corporate Audit System Logo"
+     class="logo">
+
     <h1>Corporate Audit System</h1>
+
     <p>Accountant Dashboard</p>
-   <a href="/do-logout">
-    <button type="button">Logout</button>
-</a>
+
+    <a href="/profile" class="profile-btn">
+        👤 My Profile
+    </a>
+
+    <a href="/do-logout">
+        <button type="button">Logout</button>
+    </a>
+
 </div>
 
 
