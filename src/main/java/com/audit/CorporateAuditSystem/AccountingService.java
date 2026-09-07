@@ -8,50 +8,109 @@ public class AccountingService {
         this.blockchain = blockchain;
     }
 
-    // =========================================
-    // CREATE
-    // =========================================
+    public boolean processEntry(AccountingEntry entry) {
 
-   public boolean processEntry(AccountingEntry entry) {
+        boolean saved =
+                DatabaseConnection.insertAccountingEntry(
+                        entry.getInvoiceNumber(),
+                        entry.getTransactionType(),
+                        entry.getDebitAccount(),
+                        entry.getCreditAccount(),
+                        entry.getAmount(),
+                        entry.getPaidAmount(),
+                        entry.getCustomerSupplierName(),
+                        entry.getDueDate(),
+                        entry.getDescription(),
+                        entry.getCreatedBy()
+                );
 
-    boolean saved =
-            DatabaseConnection.insertAccountingEntry(
-                    entry.getInvoiceNumber(),
-                    entry.getTransactionType(),
-                    entry.getDebitAccount(),
-                    entry.getCreditAccount(),
-                    entry.getAmount(),
-                    entry.getDescription(),
-                    entry.getCreatedBy()
+        if (saved) {
+
+            blockchain.rebuildFromDatabase();
+
+            AuditLog log = new AuditLog(
+                    blockchain.getLatestBlock().getIndex(),
+                    "CREATE ENTRY",
+                    entry.getCreatedBy(),
+                    "SUCCESS",
+                    "Accounting entry created: "
+                            + entry.getInvoiceNumber()
             );
 
-    if (saved) {
+            log.saveToDatabase();
+            log.saveToFile();
 
-        blockchain.rebuildFromDatabase();
+            return true;
 
-        AuditLog log = new AuditLog(
-                blockchain.getLatestBlock().getIndex(),
-                "CREATE ENTRY",
-                entry.getCreatedBy(),
-                "SUCCESS",
-                "Accounting entry created: "
-                        + entry.getInvoiceNumber()
-        );
+        } else {
 
-        log.saveToDatabase();
-        log.saveToFile();
+            AuditLog log = new AuditLog(
+                    -1,
+                    "CREATE ENTRY",
+                    entry.getCreatedBy(),
+                    "FAILED",
+                    "Unable to create accounting entry: "
+                            + entry.getInvoiceNumber()
+            );
 
-        return true;
+            log.saveToDatabase();
+            log.saveToFile();
 
-    } else {
+            return false;
+        }
+    }
+
+
+    public boolean updateEntry(
+            String invoiceNumber,
+            String newTransactionType,
+            String newDebitAccount,
+            String newCreditAccount,
+            double newAmount,
+            double newPaidAmount,
+            String newCustomerSupplierName,
+            java.time.LocalDate newDueDate,
+            String newDescription) {
+
+        boolean updated =
+                DatabaseConnection.updateAccountingEntry(
+                        invoiceNumber,
+                        newTransactionType,
+                        newDebitAccount,
+                        newCreditAccount,
+                        newAmount,
+                        newPaidAmount,
+                        newCustomerSupplierName,
+                        newDueDate,
+                        newDescription
+                );
+
+        if (updated) {
+
+            blockchain.rebuildFromDatabase();
+
+            AuditLog log = new AuditLog(
+                    blockchain.getLatestBlock().getIndex(),
+                    "UPDATE ENTRY",
+                    "accountant",
+                    "SUCCESS",
+                    "Accounting entry updated: "
+                            + invoiceNumber
+            );
+
+            log.saveToDatabase();
+            log.saveToFile();
+
+            return true;
+        }
 
         AuditLog log = new AuditLog(
                 -1,
-                "CREATE ENTRY",
-                entry.getCreatedBy(),
+                "UPDATE ENTRY",
+                "accountant",
                 "FAILED",
-                "Unable to create accounting entry: "
-                        + entry.getInvoiceNumber()
+                "Invoice not found: "
+                        + invoiceNumber
         );
 
         log.saveToDatabase();
@@ -59,105 +118,50 @@ public class AccountingService {
 
         return false;
     }
-}
-    // =========================================
-    // UPDATE
-    // =========================================
 
- public boolean updateEntry(
-        String invoiceNumber,
-        String newTransactionType,
-        String newDebitAccount,
-        String newCreditAccount,
-        double newAmount,
-        String newDescription) {
 
-    boolean updated =
-            DatabaseConnection.updateAccountingEntry(
-                    invoiceNumber,
-                    newTransactionType,
-                    newDebitAccount,
-                    newCreditAccount,
-                    newAmount,
-                    newDescription
+    public boolean deleteEntry(String invoiceNumber) {
+
+        boolean deleted =
+                DatabaseConnection.deleteAccountingEntry(
+                        invoiceNumber
+                );
+
+        if (deleted) {
+
+            blockchain.rebuildFromDatabase();
+
+            System.out.println(
+                    "Blockchain Synchronized After Delete ✅"
             );
 
-    if (updated) {
-        blockchain.rebuildFromDatabase();
-
-        AuditLog log = new AuditLog(
-                blockchain.getLatestBlock().getIndex(),
-                "UPDATE ENTRY",
-                "accountant",
-                "SUCCESS",
-                "Accounting entry updated: " + invoiceNumber
-        );
-
-        log.saveToDatabase();
-        log.saveToFile();
-
-        return true;
-    }
-
-    AuditLog log = new AuditLog(
-            -1,
-            "UPDATE ENTRY",
-            "accountant",
-            "FAILED",
-            "Invoice not found: " + invoiceNumber
-    );
-
-    log.saveToDatabase();
-    log.saveToFile();
-
-    return false;
-}
-    // =========================================
-    // DELETE
-    // =========================================
-
-   public boolean deleteEntry(String invoiceNumber) {
-
-    boolean deleted =
-            DatabaseConnection.deleteAccountingEntry(
-                    invoiceNumber
+            AuditLog log = new AuditLog(
+                    blockchain.getLatestBlock().getIndex(),
+                    "DELETE ENTRY",
+                    "accountant",
+                    "SUCCESS",
+                    "Accounting entry deleted: "
+                            + invoiceNumber
             );
 
-    if (deleted) {
+            log.saveToDatabase();
+            log.saveToFile();
 
-        blockchain.rebuildFromDatabase();
-
-        System.out.println(
-                "Blockchain Synchronized After Delete ✅"
-        );
+            return true;
+        }
 
         AuditLog log = new AuditLog(
-                blockchain.getLatestBlock().getIndex(),
+                -1,
                 "DELETE ENTRY",
                 "accountant",
-                "SUCCESS",
-                "Accounting entry deleted: "
+                "FAILED",
+                "Invoice not found: "
                         + invoiceNumber
         );
 
         log.saveToDatabase();
         log.saveToFile();
 
-        return true;
+        return false;
     }
-
-    AuditLog log = new AuditLog(
-            -1,
-            "DELETE ENTRY",
-            "accountant",
-            "FAILED",
-            "Invoice not found: "
-                    + invoiceNumber
-    );
-
-    log.saveToDatabase();
-    log.saveToFile();
-
-    return false;
-}
 }

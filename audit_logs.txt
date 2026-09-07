@@ -160,3 +160,30 @@ Message: Accounting entry updated: INV-1009
 Timestamp: 2026-09-06T17:18:35.919292200
 =================================
 
+=================================
+Block Index: -1
+Action: CREATE ENTRY
+Performed By: accountant
+Result: FAILED
+Message: Unable to create accounting entry: INV-2001
+Timestamp: 2026-09-07T08:07:19.796836500
+=================================
+
+=================================
+Block Index: 10
+Action: CREATE ENTRY
+Performed By: accountant
+Result: SUCCESS
+Message: Accounting entry created: INV-4001
+Timestamp: 2026-09-07T08:10:18.634675
+=================================
+
+=================================
+Block Index: 10
+Action: UPDATE ENTRY
+Performed By: accountant
+Result: SUCCESS
+Message: Accounting entry updated: INV-1001
+Timestamp: 2026-09-07T08:13:41.629191
+=================================
+

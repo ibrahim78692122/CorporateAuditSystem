@@ -1,154 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Blockchain Verification</title>
+    <title>Blockchain</title>
 
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f6f8;
+            color: #333;
         }
 
         .header {
             background: #1f4e79;
             color: white;
-            padding: 20px 40px;
+            padding: 25px 40px;
         }
 
         .container {
-            padding: 40px;
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
         }
 
         .status {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .status h2 {
-            color: #1f4e79;
+            font-weight: bold;
         }
 
         .valid {
-            font-size: 22px;
-            font-weight: bold;
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .invalid {
+            background: #f8d7da;
+            color: #842029;
         }
 
         .block {
             background: white;
-            padding: 25px;
+            padding: 20px;
             margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
-        .block h2 {
+        .block h3 {
             color: #1f4e79;
+            margin-top: 0;
         }
 
-        .hash {
-            word-break: break-all;
-            background: #f1f1f1;
-            padding: 10px;
-            border-radius: 5px;
+        .buttons {
+            margin-top: 25px;
         }
 
-        .back {
+        .btn {
             display: inline-block;
-            margin-top: 20px;
+            padding: 10px 16px;
             margin-right: 10px;
-            padding: 12px 20px;
-            background: #1f4e79;
-            color: white;
-            text-decoration: none;
             border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            background: #1f4e79;
+        }
+
+        .verify {
+            background: #198754;
         }
     </style>
-
 </head>
 
 <body>
 
 <div class="header">
-
     <h1>Corporate Audit System</h1>
-
     <p>Blockchain Verification</p>
-
 </div>
-
 
 <div class="container">
 
-    <!-- BLOCKCHAIN STATUS -->
+    <h2>🔗 Blockchain</h2>
 
-    <div class="status">
-
-        <h2>Blockchain Status</h2>
-
-        <p class="valid"
-           th:text="${blockchainValid ? 'Blockchain Valid ✅' : 'Blockchain Invalid ❌'}">
-            Blockchain Status
-        </p>
-
+    <div th:class="${blockchainValid} ? 'status valid' : 'status invalid'"
+         th:text="${blockchainValid}
+                  ? '✅ Blockchain is Valid'
+                  : '❌ Blockchain is Invalid'">
+        Blockchain Status
     </div>
 
+    <div th:each="block : ${blocks}"
+         class="block">
 
-    <!-- ALL BLOCKS -->
-
-    <h2>Blockchain Blocks</h2>
-
-    <div class="block"
-         th:each="block : ${blocks}">
-
-        <h2>
+        <h3>
             Block #
             <span th:text="${block.index}">0</span>
-        </h2>
-
-        <p>
-            <strong>Data:</strong>
-        </p>
-
-        <p th:text="${block.data}">
-            Genesis Block
-        </p>
+        </h3>
 
         <p>
             <strong>Previous Hash:</strong>
-        </p>
-
-        <p class="hash"
-           th:text="${block.previousHash}">
-            0
+            <span th:text="${block.previousHash}">
+                Previous Hash
+            </span>
         </p>
 
         <p>
-            <strong>Current Hash:</strong>
+            <strong>Hash:</strong>
+            <span th:text="${block.hash}">
+                Hash
+            </span>
         </p>
 
-        <p class="hash"
-           th:text="${block.hash}">
-            Hash
+        <p>
+            <strong>Timestamp:</strong>
+            <span th:text="${block.timestamp}">
+                Timestamp
+            </span>
+        </p>
+
+        <p>
+            <strong>Data:</strong>
+            <span th:text="${block.data}">
+                Data
+            </span>
         </p>
 
     </div>
 
+    <div class="buttons">
 
-   <a class="back"
-   th:href="${session.role == 'AUDITOR' ? '/auditor/dashboard' : '/accountant/dashboard'}">
-    ← Back to Dashboard
-</a>
+        <a href="/accountant/dashboard"
+           class="btn dashboard">
+            ← Dashboard
+        </a>
+
+        <a href="/accountant/blockchain"
+           class="btn verify">
+            🔍 Verify Blockchain
+        </a>
+
+    </div>
 
 </div>
 
 </body>
-
 </html>

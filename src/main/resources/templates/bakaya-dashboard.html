@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Outstanding Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 25px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 7px 0 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top h2 {
+            margin: 0;
+            color: #1f4e79;
+        }
+
+        .back-btn {
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .value {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+        .outstanding {
+            color: #dc3545;
+        }
+
+        .info {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .info h3 {
+            margin-top: 0;
+            color: #1f4e79;
+        }
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>
+        Corporate Audit System
+    </h1>
+
+    <p>
+        Outstanding / Bakaya Dashboard
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="top">
+
+        <h2>
+            Financial Outstanding Overview
+        </h2>
+
+        <a
+            class="back-btn"
+            href="/accountant/dashboard">
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- TOTAL SALE -->
+
+        <div class="card">
+
+            <div class="icon">
+                🛒
+            </div>
+
+            <div class="title">
+                Total Sale
+            </div>
+
+            <div class="value">
+
+                ₹<span
+                    th:text="${#numbers.formatDecimal(
+                        totalSale, 1, 2
+                    )}">
+                    0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL PURCHASE -->
+
+        <div class="card">
+
+            <div class="icon">
+                📦
+            </div>
+
+            <div class="title">
+                Total Purchase
+            </div>
+
+            <div class="value">
+
+                ₹<span
+                    th:text="${#numbers.formatDecimal(
+                        totalPurchase, 1, 2
+                    )}">
+                    0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL PAID -->
+
+        <div class="card">
+
+            <div class="icon">
+                💵
+            </div>
+
+            <div class="title">
+                Total Paid
+            </div>
+
+            <div class="value">
+
+                ₹<span
+                    th:text="${#numbers.formatDecimal(
+                        totalPaid, 1, 2
+                    )}">
+                    0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL BAKAYA -->
+
+        <div class="card">
+
+            <div class="icon">
+                ⚠️
+            </div>
+
+            <div class="title">
+                Total Outstanding
+            </div>
+
+            <div class="value outstanding">
+
+                ₹<span
+                    th:text="${#numbers.formatDecimal(
+                        totalBakaya, 1, 2
+                    )}">
+                    0.00
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+    <div class="icon">
+        🚨
+    </div>
+
+    <div class="title">
+        Overdue Amount
+    </div>
+
+    <div class="value outstanding">
+
+        ₹<span
+            th:text="${#numbers.formatDecimal(
+                overdueAmount, 1, 2
+            )}">
+            0.00
+        </span>
+
+    </div>
+
+</div>
+
+
+    </div>
+
+    <!-- CUSTOMER / SUPPLIER OUTSTANDING -->
+
+<div class="info">
+
+    <h3>
+        Customer / Supplier Outstanding
+    </h3>
+
+    <div style="overflow-x:auto;">
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        ">
+
+            <thead>
+
+            <tr style="
+                background:#1f4e79;
+                color:white;
+            ">
+
+                <th style="padding:12px;">
+                    Invoice
+                </th>
+
+                <th style="padding:12px;">
+                    Type
+                </th>
+
+                <th style="padding:12px;">
+                    Customer / Supplier
+                </th>
+
+                <th style="padding:12px;">
+                    Total
+                </th>
+
+                <th style="padding:12px;">
+                    Paid
+                </th>
+
+                <th style="padding:12px;">
+                    Outstanding
+                </th>
+
+                <th style="padding:12px;">
+                    Due Date
+                </th>
+
+                <th style="padding:12px;">
+                    Status
+                </th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="entry : ${outstandingEntries}">
+
+                <!-- INVOICE -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;"
+                    th:text="${entry.invoiceNumber}">
+                    INV-1001
+                </td>
+
+
+                <!-- TYPE -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;"
+                    th:text="${entry.transactionType}">
+                    SALE
+                </td>
+
+
+                <!-- CUSTOMER / SUPPLIER -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;"
+                    th:text="${entry.customerSupplierName}">
+                    ABC Traders
+                </td>
+
+
+                <!-- TOTAL -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;">
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            entry.amount, 1, 2
+                        )}">
+                        0.00
+                    </span>
+
+                </td>
+
+
+                <!-- PAID -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;">
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            entry.paidAmount, 1, 2
+                        )}">
+                        0.00
+                    </span>
+
+                </td>
+
+
+                <!-- OUTSTANDING -->
+
+                <td
+                    style="
+                        padding:12px;
+                        border-bottom:1px solid #ddd;
+                        color:#dc3545;
+                        font-weight:bold;
+                    ">
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            entry.remainingAmount, 1, 2
+                        )}">
+                        0.00
+                    </span>
+
+                </td>
+
+
+                <!-- DUE DATE -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;"
+                    th:text="${entry.dueDate}">
+                    2026-12-31
+                </td>
+
+
+                <!-- STATUS -->
+
+                <td
+                    style="padding:12px; border-bottom:1px solid #ddd;">
+
+                    <span
+                        th:if="${entry.paymentStatus == 'PARTIAL'}"
+                        style="
+                            background:#fff3cd;
+                            color:#856404;
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-weight:bold;
+                            font-size:12px;
+                        ">
+
+                        PARTIAL
+
+                    </span>
+
+
+                    <span
+                        th:if="${entry.paymentStatus == 'PENDING'}"
+                        style="
+                            background:#f8d7da;
+                            color:#842029;
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-weight:bold;
+                            font-size:12px;
+                        ">
+
+                        PENDING
+
+                    </span>
+
+                </td>
+
+            </tr>
+
+
+            <!-- NO OUTSTANDING -->
+
+            <tr
+                th:if="${#lists.isEmpty(outstandingEntries)}">
+
+                <td
+                    colspan="8"
+                    style="
+                        padding:30px;
+                        text-align:center;
+                        color:#777;
+                    ">
+
+                    🎉 No Outstanding Amount Found
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+    <div class="info">
+
+        <h3>
+            Outstanding Summary
+        </h3>
+
+        <p>
+            This section shows the total financial
+            amount recorded in the accounting system.
+        </p>
+
+        <p>
+            <strong>Total Sale:</strong>
+            Total value of all sale transactions.
+        </p>
+
+        <p>
+            <strong>Total Purchase:</strong>
+            Total value of all purchase transactions.
+        </p>
+
+        <p>
+            <strong>Total Paid:</strong>
+            Amount already paid against transactions.
+        </p>
+
+        <p>
+            <strong>Total Outstanding:</strong>
+            Amount that is still remaining or pending.
+        </p>
+
+    </div>
+
+    <div class="info">
+
+    <h3 style="color:#dc3545;">
+        🚨 Overdue Transactions
+    </h3>
+
+    <div style="overflow-x:auto;">
+
+        <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+
+            <thead>
+                <tr style="background:#dc3545;color:white;">
+
+                    <th style="padding:12px;">Invoice</th>
+                    <th style="padding:12px;">Type</th>
+                    <th style="padding:12px;">Customer / Supplier</th>
+                    <th style="padding:12px;">Total</th>
+                    <th style="padding:12px;">Paid</th>
+                    <th style="padding:12px;">Outstanding</th>
+                    <th style="padding:12px;">Due Date</th>
+                    <th style="padding:12px;">Status</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="entry : ${overdueEntries}">
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;"
+                        th:text="${entry.invoiceNumber}">
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;"
+                        th:text="${entry.transactionType}">
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;"
+                        th:text="${entry.customerSupplierName}">
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;">
+                        ₹<span th:text="${#numbers.formatDecimal(entry.amount,1,2)}">
+                        </span>
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;">
+                        ₹<span th:text="${#numbers.formatDecimal(entry.paidAmount,1,2)}">
+                        </span>
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;
+                               color:#dc3545;font-weight:bold;">
+                        ₹<span th:text="${#numbers.formatDecimal(entry.remainingAmount,1,2)}">
+                        </span>
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;"
+                        th:text="${entry.dueDate}">
+                    </td>
+
+                    <td style="padding:12px;border-bottom:1px solid #ddd;">
+
+                        <span style="
+                            background:#dc3545;
+                            color:white;
+                            padding:6px 12px;
+                            border-radius:20px;
+                            font-weight:bold;
+                            font-size:12px;
+                        ">
+                            🚨 OVERDUE
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(overdueEntries)}">
+
+                    <td colspan="8"
+                        style="padding:30px;
+                               text-align:center;
+                               color:#198754;
+                               font-weight:bold;">
+
+                        ✅ No Overdue Transactions
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>

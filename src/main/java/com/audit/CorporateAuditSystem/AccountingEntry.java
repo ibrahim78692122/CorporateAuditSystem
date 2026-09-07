@@ -1,5 +1,6 @@
 package com.audit.CorporateAuditSystem;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AccountingEntry {
@@ -8,7 +9,15 @@ public class AccountingEntry {
     private String transactionType;
     private String debitAccount;
     private String creditAccount;
+
     private double amount;
+    private double paidAmount;
+    private double remainingAmount;
+
+    private String customerSupplierName;
+    private LocalDate dueDate;
+    private String paymentStatus;
+
     private String description;
     private String createdBy;
     private LocalDateTime timestamp;
@@ -19,6 +28,9 @@ public class AccountingEntry {
             String debitAccount,
             String creditAccount,
             double amount,
+            double paidAmount,
+            String customerSupplierName,
+            LocalDate dueDate,
             String description,
             String createdBy) {
 
@@ -26,10 +38,35 @@ public class AccountingEntry {
         this.transactionType = transactionType;
         this.debitAccount = debitAccount;
         this.creditAccount = creditAccount;
+
         this.amount = amount;
+        this.paidAmount = paidAmount;
+
+        this.remainingAmount = amount - paidAmount;
+
+        this.customerSupplierName = customerSupplierName;
+        this.dueDate = dueDate;
+
         this.description = description;
         this.createdBy = createdBy;
+
         this.timestamp = LocalDateTime.now();
+
+        calculatePaymentStatus();
+    }
+
+    private void calculatePaymentStatus() {
+
+        if (remainingAmount <= 0) {
+            remainingAmount = 0;
+            paymentStatus = "PAID";
+
+        } else if (paidAmount > 0) {
+            paymentStatus = "PARTIAL";
+
+        } else {
+            paymentStatus = "PENDING";
+        }
     }
 
     public String getInvoiceNumber() {
@@ -52,6 +89,26 @@ public class AccountingEntry {
         return amount;
     }
 
+    public double getPaidAmount() {
+        return paidAmount;
+    }
+
+    public double getRemainingAmount() {
+        return remainingAmount;
+    }
+
+    public String getCustomerSupplierName() {
+        return customerSupplierName;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,9 +126,11 @@ public class AccountingEntry {
 
         return "Invoice=" + invoiceNumber
                 + ", Type=" + transactionType
-                + ", Debit=" + debitAccount
-                + ", Credit=" + creditAccount
+                + ", Customer/Supplier=" + customerSupplierName
                 + ", Amount=" + amount
+                + ", Paid=" + paidAmount
+                + ", Remaining=" + remainingAmount
+                + ", Status=" + paymentStatus
                 + ", Description=" + description
                 + ", CreatedBy=" + createdBy;
     }

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer / Supplier Profile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 25px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 7px 0 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 800px;
+            margin: 35px auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .top h2 {
+            margin: 0;
+            color: #1f4e79;
+        }
+
+        .back-btn {
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1f4e79;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #163a5c;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f8d7da;
+            color: #842029;
+            border-radius: 7px;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Corporate Audit System</h1>
+
+    <p>Customer / Supplier Management</p>
+
+</div>
+
+
+<div class="container">
+
+    <div class="top">
+
+        <h2>👤 Add Customer / Supplier</h2>
+
+        <a href="/accountant/dashboard"
+           class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <div class="message"
+             th:if="${message}"
+             th:text="${message}">
+        </div>
+
+
+        <form action="/accountant/customer-supplier"
+              method="post">
+
+
+            <div class="form-group">
+
+                <label>
+                    Customer / Supplier Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    📞 Phone Number
+                </label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Enter phone number">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    📍 Address
+                </label>
+
+                <textarea
+                    name="address"
+                    placeholder="Enter complete address">
+                </textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    🖼️ Profile Image URL
+                </label>
+
+                <input
+                    type="text"
+                    name="profileImage"
+                    placeholder="Enter image URL">
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn">
+
+                ➕ Save Customer / Supplier
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

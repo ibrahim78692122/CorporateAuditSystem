@@ -1,5 +1,6 @@
 package com.audit.CorporateAuditSystem;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -42,11 +43,9 @@ public class Main {
                     UserService.login(username, password);
 
             if (user == null) {
-
                 System.out.println(
                         "Invalid Username or Password ❌"
                 );
-
                 continue;
             }
 
@@ -170,7 +169,7 @@ public class Main {
                         scanner.nextLine();
 
                 System.out.print(
-                        "Transaction Type: "
+                        "Transaction Type (SALE/PURCHASE): "
                 );
 
                 String transactionType =
@@ -197,7 +196,47 @@ public class Main {
                 double amount =
                         scanner.nextDouble();
 
+                System.out.print(
+                        "Paid Amount: "
+                );
+
+                double paidAmount =
+                        scanner.nextDouble();
+
                 scanner.nextLine();
+
+                System.out.print(
+                        "Customer/Supplier Name: "
+                );
+
+                String customerSupplierName =
+                        scanner.nextLine();
+
+                System.out.print(
+                        "Due Date (YYYY-MM-DD, blank allowed): "
+                );
+
+                String dueDateInput =
+                        scanner.nextLine();
+
+                LocalDate dueDate = null;
+
+                if (!dueDateInput.isBlank()) {
+
+                    try {
+
+                        dueDate =
+                                LocalDate.parse(dueDateInput);
+
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "Invalid Due Date ❌"
+                        );
+
+                        continue;
+                    }
+                }
 
                 System.out.print(
                         "Description: "
@@ -206,6 +245,29 @@ public class Main {
                 String description =
                         scanner.nextLine();
 
+                String createdBy =
+                        user.getUsername();
+
+                // Validation
+
+                if (paidAmount < 0) {
+
+                    System.out.println(
+                            "Paid amount cannot be negative ❌"
+                    );
+
+                    continue;
+                }
+
+                if (paidAmount > amount) {
+
+                    System.out.println(
+                            "Paid amount cannot be greater than amount ❌"
+                    );
+
+                    continue;
+                }
+
                 AccountingEntry entry =
                         new AccountingEntry(
                                 invoiceNumber,
@@ -213,8 +275,11 @@ public class Main {
                                 debitAccount,
                                 creditAccount,
                                 amount,
+                                paidAmount,
+                                customerSupplierName,
+                                dueDate,
                                 description,
-                                user.getUsername()
+                                createdBy
                         );
 
                 boolean created =
@@ -289,7 +354,47 @@ public class Main {
                 double amount =
                         scanner.nextDouble();
 
+                System.out.print(
+                        "Enter New Paid Amount: "
+                );
+
+                double paidAmount =
+                        scanner.nextDouble();
+
                 scanner.nextLine();
+
+                System.out.print(
+                        "Enter New Customer/Supplier Name: "
+                );
+
+                String customerSupplierName =
+                        scanner.nextLine();
+
+                System.out.print(
+                        "Enter New Due Date (YYYY-MM-DD, blank allowed): "
+                );
+
+                String dueDateInput =
+                        scanner.nextLine();
+
+                LocalDate dueDate = null;
+
+                if (!dueDateInput.isBlank()) {
+
+                    try {
+
+                        dueDate =
+                                LocalDate.parse(dueDateInput);
+
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "Invalid Due Date ❌"
+                        );
+
+                        continue;
+                    }
+                }
 
                 System.out.print(
                         "Enter New Description: "
@@ -298,6 +403,24 @@ public class Main {
                 String description =
                         scanner.nextLine();
 
+                if (paidAmount < 0) {
+
+                    System.out.println(
+                            "Paid amount cannot be negative ❌"
+                    );
+
+                    continue;
+                }
+
+                if (paidAmount > amount) {
+
+                    System.out.println(
+                            "Paid amount cannot be greater than amount ❌"
+                    );
+
+                    continue;
+                }
+
                 boolean updated =
                         service.updateEntry(
                                 invoiceNumber,
@@ -305,6 +428,9 @@ public class Main {
                                 debitAccount,
                                 creditAccount,
                                 amount,
+                                paidAmount,
+                                customerSupplierName,
+                                dueDate,
                                 description
                         );
 
@@ -370,9 +496,7 @@ public class Main {
                             "===== ENTRY FOUND ====="
                     );
 
-                    System.out.println(
-                            entry
-                    );
+                    System.out.println(entry);
 
                 } else {
 
@@ -418,6 +542,7 @@ public class Main {
                                 .getAverageTransactionAmount();
 
                 System.out.println();
+
                 System.out.println(
                         "===== TRANSACTION STATISTICS ====="
                 );
@@ -488,7 +613,8 @@ public class Main {
                     "Choose option: "
             );
 
-            int choice = scanner.nextInt();
+            int choice =
+                    scanner.nextInt();
 
             if (choice == 1) {
 

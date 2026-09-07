@@ -3,11 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Create Accounting Entry</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -20,119 +26,520 @@
             padding: 20px 40px;
         }
 
+        .header h1 {
+            margin: 0;
+        }
+
         .container {
-            max-width: 700px;
+            max-width: 750px;
             margin: 40px auto;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.10);
         }
 
         h2 {
             color: #1f4e79;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-weight: bold;
+            color: #333;
         }
 
-        input {
+        input,
+        select,
+        textarea {
+
             width: 100%;
-            padding: 11px;
-            box-sizing: border-box;
+            padding: 12px;
+
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 7px;
+
+            font-size: 14px;
         }
 
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            outline: none;
+            border-color: #1f4e79;
+
+            box-shadow:
+                0 0 0 2px rgba(31,78,121,0.10);
+        }
+
+        .row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+        }
+
+        .amount-box {
+
+            background: #f7f9fb;
+            padding: 18px;
+
+            border-radius: 8px;
+
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .remaining {
+
+            font-size: 18px;
+            font-weight: bold;
+
+            color: #1f4e79;
+
+            margin-top: 10px;
+        }
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #fff3cd;
+
+            color: #856404;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+        .message {
+
+            background: #ffe5e5;
+            color: #b00020;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+
+            text-align: center;
+        }
+
+        .save-btn {
+
+            width: 100%;
+
+            padding: 13px;
+
             border: none;
-            border-radius: 6px;
+
+            border-radius: 7px;
+
             background: #1f4e79;
+
             color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
             cursor: pointer;
         }
 
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-            color: #1f4e79;
-            text-decoration: none;
+        .save-btn:hover {
+            background: #163a5c;
         }
+
+        .back {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            color: #1f4e79;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .hint {
+
+            font-size: 12px;
+            color: #777;
+
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="header">
+
     <h1>Corporate Audit System</h1>
+
     <p>Create Accounting Entry</p>
+
 </div>
+
 
 <div class="container">
 
     <h2>New Accounting Transaction</h2>
-    <p th:if="${message}"
-   th:text="${message}">
-</p>
 
-    <form action="/accountant/create-entry" method="post">
+    <p class="subtitle">
+        Enter sale or purchase transaction details.
+    </p>
 
-        <label>Invoice Number</label>
-        <input type="text"
-               name="invoiceNumber"
-               placeholder="INV-1001"
-               required>
 
-        <label>Transaction Type</label>
-        <input type="text"
-               name="transactionType"
-               placeholder="SALE"
-               required>
+    <!-- ERROR / SUCCESS MESSAGE -->
 
-        <label>Debit Account</label>
-        <input type="text"
-               name="debitAccount"
-               placeholder="Cash"
-               required>
+    <div class="message"
+         th:if="${message}"
+         th:text="${message}">
+    </div>
 
-        <label>Credit Account</label>
-        <input type="text"
-               name="creditAccount"
-               placeholder="Sales Revenue"
-               required>
 
-        <label>Amount</label>
-        <input type="number"
-               name="amount"
-               step="0.01"
-               min="0.01"
-               placeholder="50000"
-               required>
+    <form action="/accountant/create-entry"
+          method="post">
 
-        <label>Description</label>
-        <input type="text"
-               name="description"
-               placeholder="Product Sale"
-               required>
 
-        <button type="submit">
-            Save Entry
+        <!-- INVOICE + TYPE -->
+
+        <div class="row">
+
+            <div class="form-group">
+
+                <label>
+                    Invoice Number
+                </label>
+
+                <input
+                    type="text"
+                    name="invoiceNumber"
+                    placeholder="INV-1001"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Transaction Type
+                </label>
+
+                <select name="transactionType"
+                        required>
+
+                    <option value="">
+                        Select Type
+                    </option>
+
+                    <option value="SALE">
+                        SALE
+                    </option>
+
+                    <option value="PURCHASE">
+                        PURCHASE
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMER / SUPPLIER -->
+
+        <div class="form-group">
+
+            <label>
+                Customer / Supplier Name
+            </label>
+
+            <input
+                type="text"
+                name="customerSupplierName"
+                placeholder="Enter customer or supplier name"
+                required>
+
+        </div>
+
+
+        <!-- DEBIT + CREDIT -->
+
+        <div class="row">
+
+            <div class="form-group">
+
+                <label>
+                    Debit Account
+                </label>
+
+                <input
+                    type="text"
+                    name="debitAccount"
+                    placeholder="Cash / Purchase"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Credit Account
+                </label>
+
+                <input
+                    type="text"
+                    name="creditAccount"
+                    placeholder="Sales Revenue / Supplier"
+                    required>
+
+            </div>
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <div class="amount-box">
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label>
+                        Total Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        step="0.01"
+                        min="0.01"
+                        placeholder="50000"
+                        required
+                        oninput="calculateRemaining()">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Paid Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="paidAmount"
+                        name="paidAmount"
+                        step="0.01"
+                        min="0"
+                        value="0"
+                        placeholder="20000"
+                        required
+                        oninput="calculateRemaining()">
+
+                </div>
+
+            </div>
+
+
+            <div class="remaining">
+
+                Remaining / Bakaya:
+
+                ₹<span id="remainingAmount">
+                    0.00
+                </span>
+
+            </div>
+
+
+            <div style="margin-top:12px;">
+
+                Payment Status:
+
+                <span class="status"
+                      id="paymentStatus">
+
+                    PENDING
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- DUE DATE -->
+
+        <div class="form-group">
+
+            <label>
+                Due Date
+            </label>
+
+            <input
+                type="date"
+                name="dueDate"
+                required>
+
+            <div class="hint">
+                Enter the date by which payment should be completed.
+            </div>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Enter transaction description"
+                required></textarea>
+
+        </div>
+
+
+        <!-- SAVE -->
+
+        <button
+            type="submit"
+            class="save-btn">
+
+            Save Accounting Entry
+
         </button>
 
     </form>
 
+
     <a class="back"
        href="/accountant/dashboard">
+
         ← Back to Dashboard
+
     </a>
 
 </div>
 
+
+<script>
+
+function calculateRemaining() {
+
+    const amount =
+        parseFloat(
+            document.getElementById("amount").value
+        ) || 0;
+
+    const paid =
+        parseFloat(
+            document.getElementById("paidAmount").value
+        ) || 0;
+
+
+    let remaining =
+        amount - paid;
+
+
+    if (remaining < 0) {
+        remaining = 0;
+    }
+
+
+    document.getElementById(
+        "remainingAmount"
+    ).textContent =
+        remaining.toFixed(2);
+
+
+    const status =
+        document.getElementById(
+            "paymentStatus"
+        );
+
+
+    if (amount > 0 && paid >= amount) {
+
+        status.textContent = "PAID";
+
+    } else if (paid > 0) {
+
+        status.textContent = "PARTIAL";
+
+    } else {
+
+        status.textContent = "PENDING";
+    }
+
+}
+
+</script>
+
+
 </body>
+
 </html>
